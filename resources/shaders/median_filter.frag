@@ -12,9 +12,6 @@ layout (location = 0 ) in VS_OUT
 } surf;
 
 
-//vec4 frameValues[KERNEL * KERNEL];
-// float arr[KERNEL * KERNEL];
-
 float arrR[KERNEL * KERNEL];
 float arrG[KERNEL * KERNEL];
 float arrB[KERNEL * KERNEL];
@@ -29,21 +26,21 @@ void bubbleSort()
     {
       if (arrR[j] > arrR[j + 1])
       {
-          tmp = arrR[j];
-          arrR[j] = arrR[j + 1];
-          arrR[j + 1] = tmp;
+        tmp = arrR[j];
+        arrR[j] = arrR[j + 1];
+        arrR[j + 1] = tmp;
       }
       if (arrG[j] > arrG[j + 1])
       {
-          tmp = arrG[j];
-          arrG[j] = arrG[j + 1];
-          arrG[j + 1] = tmp;
+        tmp = arrG[j];
+        arrG[j] = arrG[j + 1];
+        arrG[j + 1] = tmp;
       }
       if (arrB[j] > arrB[j + 1])
       {
-          tmp = arrB[j];
-          arrB[j] = arrB[j + 1];
-          arrB[j + 1] = tmp;
+        tmp = arrB[j];
+        arrB[j] = arrB[j + 1];
+        arrB[j + 1] = tmp;
       }
     }
   }
@@ -53,9 +50,9 @@ void main() {
   int s = (KERNEL - 1) / 2;
   vec2 delta = 1.0 / textureSize(colorTex, 0);
   vec4 texel;
-  for (int i = 0; i <= KERNEL; i++)
+  for (int i = 0; i < KERNEL; i++)
   {
-    for (int j = 0; j <= KERNEL; j++) {
+    for (int j = 0; j < KERNEL; j++) {
       texel = textureLod(colorTex, surf.texCoord + vec2(i - s, j - s) * delta , 0);
       arrR[KERNEL * j + i] = texel.x;
       arrG[KERNEL * j + i] = texel.y;
@@ -64,6 +61,4 @@ void main() {
   }
   bubbleSort();
   color = vec4(arrR[KERNEL * KERNEL / 2], arrG[KERNEL * KERNEL / 2], arrB[KERNEL * KERNEL / 2], 1.0);
-  // color = textureLod(colorTex, surf.texCoord, 0);
-  // color = mix(color, vec4(1., 0., 0., 0.), 0.5);
 }
